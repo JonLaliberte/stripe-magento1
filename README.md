@@ -1,0 +1,1 @@
+This just unpacks the files from [stripe-archive/stripe-magento1-releases](https://github.com/stripe-archive/stripe-magento1-releases) and has each release as a commit on the branch. Nothing fancy.
