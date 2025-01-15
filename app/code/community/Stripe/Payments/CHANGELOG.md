@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5 - 2020-07-15
+
+- Fixed order migrations issue from the old Cryozonic modules
+
 ## 1.1.4 - 2020-07-06
 
 - Fixed a CSRF issue

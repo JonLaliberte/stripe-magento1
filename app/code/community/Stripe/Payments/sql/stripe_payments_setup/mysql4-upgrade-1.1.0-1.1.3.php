@@ -4,7 +4,6 @@ $installer = $this;
 
 $installer->startSetup();
 
-
 $methods = [
   "cryozonic_stripe" => "stripe_payments",
   "cryozonic_achpayments_ach" => "stripe_payments_ach",
@@ -23,7 +22,7 @@ $methods = [
 $connection = $installer->getConnection();
 $table = $installer->getTable('sales_flat_order_payment');
 
-foreach ($method as $fromMethod => $toMethod)
+foreach ($methods as $fromMethod => $toMethod)
 {
   $fields = array();
   $fields['method'] = $toMethod;
