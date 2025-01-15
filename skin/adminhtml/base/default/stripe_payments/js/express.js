@@ -50,6 +50,15 @@ var stripeExpress = {
         );
     },
 
+    getShippingAddressFrom(prapiShippingAddress)
+    {
+        // For some countries like Japan, the PRAPI does not set the City, only the region
+        if (prapiShippingAddress.city.length == 0 && prapiShippingAddress.region.length > 0)
+            prapiShippingAddress.city = prapiShippingAddress.region;
+
+        return prapiShippingAddress;
+    },
+
     processResponseWithPaymentIntent: function(response, callback)
     {
         try
@@ -307,7 +316,8 @@ var stripeExpress = {
     initProductWidget: function (paymentRequest, params, prButton) {
         var request = [],
             shippingAddress = [],
-            shippingMethod = null;
+            shippingMethod = null,
+            self = this;
 
         prButton.on('click', function(ev) {
             var productAddToCartForm = new VarienForm('product_addtocart_form'),
@@ -362,7 +372,7 @@ var stripeExpress = {
             }
 
             request = form.serialize(true);
-            shippingAddress = ev.shippingAddress;
+            shippingAddress = stripeExpress.getShippingAddressFrom(ev.shippingAddress);
             stripeExpress.estimateShippingCart(shippingAddress, function (err, shippingOptions) {
                 if (err) {
                     ev.updateWith({status: 'invalid_shipping_address'});
@@ -453,6 +463,7 @@ var stripeExpress = {
     onPaymentPlaced: function(result, paymentRequestButton)
     {
         $('payment-request-button').addClassName('disabled');
+        result.shippingAddress = stripeExpress.getShippingAddressFrom(result.shippingAddress);
         stripeExpress.placeOrder(result, function (err, response, result)
         {
             $('payment-request-button').removeClassName('disabled');
@@ -472,10 +483,11 @@ var stripeExpress = {
      */
     initCartWidget: function (paymentRequest, params, prButton) {
         var shippingAddress = [],
-            shippingMethod = null;
+            shippingMethod = null,
+            self = this;
 
         stripeExpress.paymentRequest.on('shippingaddresschange', function(ev) {
-            shippingAddress = ev.shippingAddress;
+            shippingAddress = stripeExpress.getShippingAddressFrom(ev.shippingAddress);
             stripeExpress.estimateShippingCart(shippingAddress, function (err, shippingOptions) {
                 if (err) {
                     ev.updateWith({status: 'invalid_shipping_address'});

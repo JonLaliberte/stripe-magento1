@@ -182,6 +182,9 @@ class Stripe_Payments_Model_Method_Ach extends Mage_Payment_Model_Method_Abstrac
         if (!$quote)
             return parent::isAvailable($quote);
 
+        if ($quote->getGrandTotal() <= 0)
+            return false;
+
         $store = $this->stripe->getStore();
         $allowedCurrencies = $store->getConfig("payment/{$this->_code}/allowed_currencies");
 

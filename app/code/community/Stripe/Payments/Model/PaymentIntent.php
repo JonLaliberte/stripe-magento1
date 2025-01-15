@@ -113,7 +113,7 @@ class Stripe_Payments_Model_PaymentIntent
         else
             $this->loadFromCache($quote);
 
-        if ($this->params['amount'] == 0)
+        if (!isset($this->params['amount']) || $this->params['amount'] == 0)
             return null;
 
         if (!$this->paymentIntent)

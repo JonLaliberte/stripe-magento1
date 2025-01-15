@@ -45,7 +45,7 @@ class Stripe_Payments_Model_Method extends Mage_Payment_Model_Method_Abstract {
 
     // Module Details
     const MODULE_NAME = "Magento1";
-    const MODULE_VERSION = "1.1.6";
+    const MODULE_VERSION = "1.1.7";
     const MODULE_URL = "https://stripe.com/docs/plugins/magento";
     const STRIPE_API = "2019-02-19";
     const PARTNER_ID = "pp_partner_Fs6iNUQypCPjXm";
@@ -57,34 +57,6 @@ class Stripe_Payments_Model_Method extends Mage_Payment_Model_Method_Abstract {
         $this->paymentIntent = Mage::getSingleton("stripe_payments/paymentIntent");
         $this->saveCards = $this->store->getConfig('payment/stripe_payments/ccsave');
         $this->ensureStripeCustomer();
-    }
-
-    public function addOn($name, $version, $url = null)
-    {
-        $info = \Stripe\Stripe::getAppInfo();
-
-        if ($name && $version)
-        {
-            $this->_addOns[$name . '/' . $version] = $name . '/' . $version;
-        }
-
-        if ($url)
-        {
-            $this->_urls[$url] = $url;
-        }
-
-        $name = Stripe_Payments_Model_Method::MODULE_NAME;
-        $version = Stripe_Payments_Model_Method::MODULE_VERSION;
-        $url = Stripe_Payments_Model_Method::MODULE_URL;
-        $partnerId = Stripe_Payments_Model_Method::PARTNER_ID;
-
-        if (!empty($this->_addOns))
-            $version .= ", " . implode(", ", $this->_addOns);
-
-        if (!empty($this->_urls))
-            $url .= ", " . implode(", ", $this->_urls);
-
-        \Stripe\Stripe::setAppInfo($name, $version, $url, $partnerId);
     }
 
     public function getAdminOrderGuestEmail()
@@ -308,7 +280,7 @@ class Stripe_Payments_Model_Method extends Mage_Payment_Model_Method_Abstract {
             if (empty($token))
                 $token = $payment->getLastTransId(); // In case where the transaction was not created during the checkout, i.e. with a Stripe Webhook redirect
 
-            if (Mage::app()->getStore()->isAdmin() && $token)
+            if ($token)
             {
                 $token = $this->helper->cleanToken($token);
                 try

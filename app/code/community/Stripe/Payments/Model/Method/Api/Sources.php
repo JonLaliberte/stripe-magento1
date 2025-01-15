@@ -181,6 +181,9 @@ class Stripe_Payments_Model_Method_Api_Sources extends Mage_Payment_Model_Method
         if (!$quote)
             return parent::isAvailable($quote);
 
+        if ($quote->getGrandTotal() <= 0)
+            return false;
+
         $store = $this->stripe->getStore();
         $allowCurrencies = $store->getConfig("payment/{$this->_code}/allow_currencies");
         $allowedCurrencies = $store->getConfig("payment/{$this->_code}/allowed_currencies");

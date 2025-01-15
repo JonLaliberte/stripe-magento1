@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.7 - 2020-10-23
+
+- Fixed an integration issue with Xtendo TrackingImport
+- Fixed Apple Pay issue with countries that do not provide a city through the PRAPI (i.e. Japan)
+
 ## 1.1.6 - 2020-08-07
 
 - Added support for GoMage LightChekcout

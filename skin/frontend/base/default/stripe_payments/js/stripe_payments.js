@@ -46,7 +46,7 @@ var initStripe = function(apiKey, securityMethod, callback)
 };
 
 var stripe = {
-    version: '1.1.6',
+    version: '1.1.7',
 
     // Properties
     billingInfo: null,
