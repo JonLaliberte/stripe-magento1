@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.9 - 2021-03-10
+
+- Fixed a WeChat amount formatting issue at the order success page
+- Fixed an ACH account verification issue
+
 ## 1.1.7 - 2020-10-23
 
 - Fixed an integration issue with Xtendo TrackingImport

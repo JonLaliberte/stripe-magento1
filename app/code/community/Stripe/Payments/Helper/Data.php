@@ -1092,6 +1092,18 @@ class Stripe_Payments_Helper_Data extends Mage_Payment_Helper_Data
         Mage::throwException($this->__($e->getMessage()));
     }
 
+    public function convertMagentoAmountToStripeAmount($amount, $currency)
+    {
+        if (empty($amount) || !is_numeric($amount) || $amount < 0)
+            return 0;
+
+        $cents = 100;
+        if ($this->isZeroDecimal($currency))
+            $cents = 1;
+
+        return round($amount * $cents);
+    }
+
     // ACH Payment verification
     public function verify($customerId, $bankAccountId, $amount1, $amount2)
     {
@@ -1107,6 +1119,10 @@ class Stripe_Payments_Helper_Data extends Mage_Payment_Helper_Data
 
             if ($account->status == "verified")
                 return;
+
+            $currency = Mage::app()->getStore()->getCurrentCurrencyCode();
+            $amount1 = $this->convertMagentoAmountToStripeAmount($amount1, $currency);
+            $amount2 = $this->convertMagentoAmountToStripeAmount($amount2, $currency);
 
             $account->verify(array('amounts' => array($amount1, $amount2)));
         }

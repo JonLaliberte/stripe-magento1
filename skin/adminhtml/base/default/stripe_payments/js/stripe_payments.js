@@ -1164,33 +1164,6 @@ var initAdmin = function()
     }
 };
 
-var beginApplePay = function()
-{
-    var paymentRequest = paramsApplePay;
-
-    var countryCode = stripe.getCountryCode();
-    if (countryCode && countryCode != paymentRequest.countryCode)
-    {
-        // In some cases with OSC modules, the country may change without having the payment form reloaded
-        paymentRequest.countryCode = countryCode;
-    }
-
-    var ession = Stripe.applePay.buildSession(paymentRequest, function(result, completion)
-    {
-        setStripeToken(result.token.id);
-
-        completion(ApplePaySession.STATUS_SUCCESS);
-
-        setApplePayToken(result.token);
-    },
-    function(error)
-    {
-        alert(error.message);
-    });
-
-    session.begin();
-};
-
 var setApplePayToken = function(token)
 {
     if (!stripe.isApplePayEnabled())

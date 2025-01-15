@@ -22,15 +22,15 @@ class Stripe_Payments_Block_Onepage_Info extends Mage_Core_Block_Template
     public function getWechatFormattedAmount()
     {
         $order = $this->getCheckout()->getLastRealOrder();
-        $amount = $order->getPayment()->getAdditionalInformation('wechat_amount');
+
+        $amount = $order->getGrandTotal();
         $currency = $order->getOrderCurrencyCode();
+
         $cents = 100;
         if (Mage::helper('stripe_payments')->isZeroDecimal($currency))
             $cents = 1;
 
-        $finalAmount = $amount / $cents;
-
-        return Mage::helper('core')->currency($finalAmount, true, false);
+        return Mage::helper('core')->formatPrice($amount, false);
     }
 
     public function getQR()

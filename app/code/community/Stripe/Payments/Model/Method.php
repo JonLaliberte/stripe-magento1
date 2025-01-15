@@ -45,7 +45,7 @@ class Stripe_Payments_Model_Method extends Mage_Payment_Model_Method_Abstract {
 
     // Module Details
     const MODULE_NAME = "Magento1";
-    const MODULE_VERSION = "1.1.8";
+    const MODULE_VERSION = "1.1.9";
     const MODULE_URL = "https://stripe.com/docs/plugins/magento";
     const STRIPE_API = "2019-02-19";
     const PARTNER_ID = "pp_partner_Fs6iNUQypCPjXm";
