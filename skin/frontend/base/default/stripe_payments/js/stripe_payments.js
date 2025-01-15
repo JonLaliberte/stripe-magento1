@@ -46,7 +46,7 @@ var initStripe = function(apiKey, securityMethod, callback)
 };
 
 var stripe = {
-    version: '1.1.5',
+    version: '1.1.6',
 
     // Properties
     billingInfo: null,
@@ -69,6 +69,7 @@ var stripe = {
     PRAPIEvent: null,
     isDynamicCustomerAuthenticationInitialized: false,
     isAlertProxyInitialized: false,
+    is3DSecureOpen: false,
     onStripeInitCallback: function() {},
 
     // Methods
@@ -898,9 +899,15 @@ var stripe = {
     },
     triggerCustomerAuthentication: function()
     {
+        if (stripe.is3DSecureOpen)
+            return;
+
         stripe.agreeToTerms();
+        stripe.is3DSecureOpen = true;
         stripe.authenticateCustomer(function(err)
         {
+            stripe.is3DSecureOpen = false;
+
             if (err)
                 return stripe.displayCardError(err);
 
@@ -2126,6 +2133,21 @@ var initOSCModules = function()
                     stripe.placeOrder();
             });
         };
+
+        var triggerModal = null;
+
+        document.getElementsByTagName("BODY")[0].addEventListener('DOMNodeInserted', function(evt)
+        {
+            if (triggerModal)
+                clearTimeout(triggerModal);
+
+            triggerModal = setTimeout(function()
+            {
+                stripe.searchForAuthenticationRequiredError(stripe.triggerCustomerAuthentication);
+            }, 100);
+
+        }, false);
+
         stripe.oscInitialized = true;
     }
     // Amasty OneStepCheckout 3.0.5

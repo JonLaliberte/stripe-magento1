@@ -82,6 +82,7 @@ class Stripe_Payments_Helper_Webhooks extends Mage_Payment_Helper_Data
 
         Mage::app()->getResponse()
             ->setHeader('Content-Type', 'text/plain; charset=UTF-8', $overwriteExisting = true)
+            ->setHeader('X-Content-Type-Options', 'nosniff', true)
             ->setHeader('HTTP/1.1', $responseStatus, true)
             ->setBody($msg);
 

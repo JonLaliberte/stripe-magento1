@@ -24,13 +24,14 @@ class Stripe_Payments_Model_Webhooks_Ping
             $processed[$secretKey] = $secretKey;
 
             \Stripe\Stripe::setApiKey($secretKey);
-            \Stripe\Product::create([
+            $product = \Stripe\Product::create([
                'name' => 'Webhook Ping',
                'type' => 'service',
                'metadata' => [
                     "pk" => $configuration['api_keys']['pk']
                ]
             ]);
+            $product->delete();
         }
     }
 }

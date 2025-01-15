@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.6 - 2020-08-07
+
+- Added support for GoMage LightChekcout
+
 ## 1.1.5 - 2020-07-15
 
 - Fixed order migrations issue from the old Cryozonic modules

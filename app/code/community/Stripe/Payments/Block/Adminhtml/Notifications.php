@@ -81,7 +81,7 @@ class Stripe_Payments_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block
 
             $storeNamesText = implode(", ", $storeNames);
 
-            $this->displayedText = "Stripe Webhooks have not yet been configured for: $storeNamesText - You can configure them from Stores &rarr; Configuration &rarr; Sales &rarr; Payment Methods &rarr; Stripe Payments &rarr; Basic Settings &rarr; Webhooks.";
+            $this->displayedText = "Stripe Webhooks have not yet been configured for: $storeNamesText - You can configure them from System &rarr; Configuration &rarr; Sales &rarr; Payment Methods &rarr; Stripe Payments &rarr; Webhooks.";
 
             return $this->displayedText;
         }
